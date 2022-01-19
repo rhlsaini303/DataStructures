@@ -3,14 +3,47 @@ __author__ = 'Rahul'
 #import copy module for making deep copies
 import copy
 
+from collections import deque
+from queue import LifoQueue
+
 class Stack:
-    def __init__(self, initialiser = None):
+    def __init__(self, initialiser = None, stack_base = "list"):
+        self.__base_container = stack_base
+        
         if initialiser is None:
-            self.__stack = []
-            self.__size = 0
+            self.__size = 0 #Set the original size of Stack as zero. 
+            
+            '''
+                First we will decide what base container we are going to use for our Stack implementation.
+                We will make that choice according to the value of stack_base parameter.
+            '''
+            if stack_base in ["list", "deque", "lifo queue"]:
+                #We choose the appropriate base container for our Stack 
+                if stack_base = "list":
+                    self.__stack = []
+                elif stack_base = "deque":
+                    self.__stack = deque()
+                else:
+                    self.__stack = LifoQueue()
+            else:
+                #The base container specified to be used as stack is invalid.
+                #Raise an appropriate exception.
         else:
-            self.__stack = list(initialiser)
-            self.__size = len(initialiser)
+            '''
+                A value other than None for initialiser parameter has been passed.
+                The initialiser passed must be listable.  
+            '''
+            
+            #Perform necessary checks on type of initialiser
+            
+            self.__size = len(initialiser) #Set the size of the stack to the size of initialiser
+            
+            if stack_base = "list":
+                    self.__stack = list(initialiser)
+                elif stack_base = "deque":
+                    self.__stack = deque(list(initialiser))
+                else:
+                    self.__stack = LifoQueue(list(initialiser))
 
     def __print_stack(self, L):
         if L:
